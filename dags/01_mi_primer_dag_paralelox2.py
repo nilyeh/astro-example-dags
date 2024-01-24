@@ -6,9 +6,9 @@ from datetime import datetime , timedelta
 from airflow.utils.dates import days_ago
 
 default_args = {
-    'owner': 'Datapath',
+    'owner': 'DatapathHeylin',
     'depends_on_past': False,
-    'email_on_failure': 'moralesmeza28@gmail.com',
+    'email_on_failure': 'nilyeh@hotmail.com',
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=1),
@@ -17,8 +17,8 @@ default_args = {
 def start_process():
     print(" INICIO EL PROCESO!")
 
-def load_master():
-    print(" Load Master!")
+def fun_load_bi():
+    print(" Hola Airflow!")
 
 def load_raw_2():
     print(" Hola Raw 2!")
@@ -26,10 +26,19 @@ def load_raw_2():
 def load_raw_1():
     print(" Hola Raw 1!")
 
+def load_step_master2():
+    print(" Load Master2!")
+
+def load_step_master():
+    print(" Load Master1!")
+
+
+
+
 with DAG(
-    dag_id="mi_primer_dag_paralelo",
+    dag_id="dag_paralelo_tarea",
     schedule="20 04 * * *", 
-    start_date=days_ago(2), 
+    start_date=days_ago(1), 
     default_args=default_args,
     description='Prueba de Dag'
 ) as dag:
@@ -47,13 +56,25 @@ with DAG(
         task_id='step_load_raw_2',
         python_callable=load_raw_2,
         dag=dag
+   )
+    load_master_2 = PythonOperator(
+        task_id='load_step_master_2',
+        python_callable=load_step_master2(),
+        dag=dag
     )
-    step_master = PythonOperator(
-        task_id='step_master',
-        python_callable=load_master,
+    load_master_ini = PythonOperator(
+        task_id='load_step_master',
+        python_callable=load_step_master(),
+        dag=dag
+    )
+    load_bi = PythonOperator(
+        task_id='load_bi',
+        python_callable=fun_load_bi,
         dag=dag
     )
     step_start>>step_load_raw_1
     step_start>>step_load_raw_2
-    step_load_raw_1>>step_master
-    step_load_raw_2>>step_master
+    step_load_raw_1>>load_master_ini
+    step_load_raw_2>>load_master_2
+    load_master_ini>>load_bi
+    load_master_2>>load_bi
