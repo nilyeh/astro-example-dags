@@ -59,12 +59,12 @@ with DAG(
    )
     load_master_2 = PythonOperator(
         task_id='load_step_master_2',
-        python_callable=load_step_master2(),
+        python_callable=load_step_master2,
         dag=dag
     )
     load_master_ini = PythonOperator(
         task_id='load_step_master',
-        python_callable=load_step_master(),
+        python_callable=load_step_master,
         dag=dag
     )
     load_bi = PythonOperator(
