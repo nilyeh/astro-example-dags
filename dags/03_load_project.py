@@ -1,4 +1,4 @@
-from airflow import DAG
+heylinfrom airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.models.connection import Connection
 from time import time_ns
@@ -46,8 +46,8 @@ def load_products():
     print(f" Se obtuvo  {products_rows}  Filas")
     products_rows=len(products_df)
     if products_rows>0 :
-        client = bigquery.Client(project='premium-guide-410714')
-        table_id =  "premium-guide-410714.dep_raw.products"
+        client = bigquery.Client(project='baseheylin') #usar ID de proyecto BigQuerypersonal
+        table_id =  "baseheylin.dep_raw.products"
         job_config = bigquery.LoadJobConfig(
             schema=[
                 bigquery.SchemaField("_id", bigquery.enums.SqlTypeNames.STRING),
