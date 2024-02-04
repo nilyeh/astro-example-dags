@@ -113,7 +113,7 @@ def load_orders():
     orders_df['order_date'] = pd.to_datetime(orders_df['order_date'], format='%Y-%m-%d').dt.date
     orders_rows=len(orders_df)
     if orders_rows>0 :
-        client = bigquery.Client()
+        client = bigquery.Client(project='baseheylin')
 
         table_id =  "baseheylin.dep_raw.orders"
         job_config = bigquery.LoadJobConfig(
@@ -162,7 +162,7 @@ def load_order_items():
     order_items_df['order_date'] = pd.to_datetime(order_items_df['order_date'], format='%Y-%m-%d').dt.date
     order_items_rows=len(order_items_df)
     if order_items_rows>0 :
-        client = bigquery.Client()
+        client = bigquery.Client(project='baseheylin')
 
         table_id =  "baseheylin.dep_raw.order_items"
         job_config = bigquery.LoadJobConfig(
@@ -207,7 +207,7 @@ def load_customers():
     customers_df['_id'] = customers_df['_id'].astype(str)
     customers_rows=len(customers_df)
     if customers_rows>0 :
-        client = bigquery.Client()
+        client = bigquery.Client(project='baseheylin')
 
         table_id =  "baseheylin.dep_raw.customers"
         job_config = bigquery.LoadJobConfig(
@@ -252,7 +252,7 @@ def load_categories():
     categories_df = categories_df.drop(columns=['_id']) 
     categories_rows=len(categories_df)
     if categories_rows>0 :
-        client = bigquery.Client()
+        client = bigquery.Client(project='baseheylin')
 
         table_id =  "baseheylin.dep_raw.categories"
         job_config = bigquery.LoadJobConfig(
@@ -290,7 +290,7 @@ def load_departments():
     departments_df = departments_df.drop(columns=['_id'])
     departments_rows=len(departments_df)
     if departments_rows>0 :
-        client = bigquery.Client()
+        client = bigquery.Client(project='baseheylin')
 
         table_id =  "baseheylin.dep_raw.departments"
         job_config = bigquery.LoadJobConfig(
@@ -337,7 +337,7 @@ def load_Capa_Master():
     df_master['order_date'] = pd.to_datetime(df_master['order_date'], format='%Y-%m-%d').dt.date
     df_master_rows=len(df_master)
     if df_master_rows>0 :
-        client = bigquery.Client()
+        client = bigquery.Client(project='baseheylin')
 
         table_id =  "baseheylin.dep_raw.master_order"
         job_config = bigquery.LoadJobConfig(
@@ -374,7 +374,7 @@ def load_Capa_Master():
 
 def load_Tabla_BI():
     print(f" INICIO LOAD TABLA BI ")
-    client = bigquery.Client()
+    client = bigquery.Client(project='baseheylin')
     query_string = """
 
     create or replace table `baseheylin.dep_raw.bi_orders` as
