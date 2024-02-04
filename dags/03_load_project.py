@@ -1,4 +1,5 @@
 from airflow import DAG
+pip install db-dtypes
 from airflow.operators.python import PythonOperator
 from airflow.models.connection import Connection
 from time import time_ns
@@ -316,7 +317,7 @@ def load_departments():
 
 def load_Capa_Master():
     print(f"INICIO LOAD_CAPA_MASTER")
-    pip install db-dtypes
+    
     client = bigquery.Client(project='baseheylin')
     sql = """
         SELECT *
