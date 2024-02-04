@@ -318,7 +318,7 @@ def load_departments():
 
 def load_Capa_Master():
     print(f"INICIO LOAD_CAPA_MASTER")
-    #pip install db-dtypes
+    pip install db-dtypes
     client = bigquery.Client(project='baseheylin')
     sql = """
         SELECT *
