@@ -1,4 +1,4 @@
-heylinfrom airflow import DAG
+from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.models.connection import Connection
 from time import time_ns
