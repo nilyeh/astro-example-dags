@@ -466,7 +466,6 @@ with DAG(
     #    python_callable=load_customers,
     #    dag=dag
     #)
-
     step_end = PythonOperator(
         task_id='step_end_id',
         python_callable=end_process,
