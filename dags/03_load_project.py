@@ -14,7 +14,7 @@ from google.cloud import bigquery
 import pandas as pd
 
 default_args = {
-    'owner': 'Datapath-Nil',
+    'owner': 'Datapath',
     'depends_on_past': False,
     'email_on_failure': False,
     'email_on_retry': False,
@@ -332,15 +332,6 @@ def load_Capa_Master():
        'order_item_subtotal', 'order_item_product_price']]
     df_master=df_master.rename(columns={"order_date_x":"order_date"})
     #def get_group_status(text):
-    #    text = str(text)
-    #    if text =='CLOSED':
-    #       d='END'
-    #    elif text =='COMPLETE':
-    #       d='END'
-    #    else :
-    #        d='TRANSIT'
-    #    return d
-
     df_master['order_status_group']  = df_master['order_status'].map(get_group_status)
     df_master['order_date'] = df_master['order_date'].astype(str)
     df_master['order_date'] = pd.to_datetime(df_master['order_date'], format='%Y-%m-%d').dt.date
@@ -406,10 +397,6 @@ def load_Tabla_BI():
     rows = list(query_job.result())
     print(rows)
 
-
-
-
-
 with DAG(
     dag_id="load_project",
     schedule="00 05 * * *", #Ejecutar todos los días a las 5:00 a.m.
@@ -461,14 +448,9 @@ with DAG(
         python_callable=load_Tabla_BI,
         dag=dag
     )
-    #*step_load_customers = PythonOperator(
-    #    task_id='load_customers_id',
-    #    python_callable=load_customers,
-    #    dag=dag
-    #)
     step_end = PythonOperator(
-        task_id='step_end_id',
-        python_callable=end_process,
-        dag=dag
+    task_id='step_end_id',
+    python_callable=end_process,
+    dag=dag
     )
     step_start>>step_load_orders>>step_load_order_items>>step_load_products>>step_load_customers>>step_load_categories>>step_load_departments>>step_load_Capa_Master>>step_load_Tabla_BI>>step_end
