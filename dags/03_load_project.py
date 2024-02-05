@@ -334,9 +334,9 @@ def load_Capa_Master():
     df_master['order_date'] = df_master['order_date'].astype(str)
     df_master['order_date'] = pd.to_datetime(df_master['order_date'], format='%Y-%m-%d').dt.date
     df_master_rows=len(df_master)
+    
     if df_master_rows>0 :
         client = bigquery.Client(project='baseheylin')
-
         table_id =  "baseheylin.dep_raw.master_order"
         job_config = bigquery.LoadJobConfig(
             schema=[
@@ -451,4 +451,5 @@ with DAG(
     python_callable=end_process,
     dag=dag
     )
-    step_start>>step_load_orders>>step_load_order_items>>step_load_products>>step_load_customers>>step_load_categories>>step_load_departments>>step_load_Capa_Master>>step_load_Tabla_BI>>step_end
+    step_start>>step_load_Capa_Master>>step_load_Tabla_BI>>step_end
+    #step_load_orders>>step_load_order_items>>step_load_products>>step_load_customers>>step_load_categories>>step_load_departments>>step_load_Capa_Master>>step_load_Tabla_BI>>step_end
