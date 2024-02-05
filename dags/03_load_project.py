@@ -1,5 +1,4 @@
 from airflow import DAG
-pip install db-dtypes
 from airflow.operators.python import PythonOperator
 from airflow.models.connection import Connection
 from time import time_ns
