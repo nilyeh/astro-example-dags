@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.models.connection import Connection
+from airflow.operators.bash_operator import BashOperator
 from time import time_ns
 from datetime import datetime , timedelta
 from airflow.utils.dates import days_ago
@@ -12,13 +13,21 @@ from google.cloud import bigquery
 import pandas as pd
 
 default_args = {
-    'owner': 'Datapath',
+    'owner': 'Datapath-Nil',
     'depends_on_past': False,
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=1),
 }
+
+##Para la capa Master
+install_db_dtypes = BashOperator(
+    task_id='install_db_dtypes',
+    bash_command='pip install db-dtypes',
+    dag=dag,
+)
+
 
 def get_connect_mongo():
 
