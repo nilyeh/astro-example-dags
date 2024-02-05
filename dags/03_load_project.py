@@ -20,14 +20,18 @@ default_args = {
     'retries': 1,
     'retry_delay': timedelta(minutes=1),
 }
+## Para la capa Master
+dag = DAG(
+    'install_db_dtypes',
+    default_args=default_args,
+    schedule_interval='@once',
 
-##Para la capa Master
-install_db_dtypes = BashOperator(
+    install_db_dtypes = BashOperator(
     task_id='install_db_dtypes',
     bash_command='pip install db-dtypes',
     dag=dag,
 )
-
+##
 dag = DAG(
     'install_db_dtypes',
     default_args=default_args,
