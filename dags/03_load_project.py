@@ -20,18 +20,6 @@ default_args = {
     'retries': 1,
     'retry_delay': timedelta(minutes=1),
 }
-## Para la capa Master
-dag = DAG(
-    'install_db_dtypes',
-    default_args=default_args,
-    schedule_interval='@once',
-
-    install_db_dtypes = BashOperator(
-    task_id='install_db_dtypes',
-    bash_command='pip install db-dtypes',
-    dag=dag,
-)
-##
 
 def get_connect_mongo():
 
@@ -330,6 +318,7 @@ def load_departments():
 def load_Capa_Master():
     print(f"INICIO LOAD_CAPA_MASTER")
     client = bigquery.Client(project='baseheylin')
+
     sql = """
         SELECT *
         FROM `baseheylin.dep_raw.order_items`
@@ -449,6 +438,7 @@ with DAG(
         dag=dag
     )
     step_load_Capa_Master = PythonOperator(
+        task_id='install_db_dtypes',
         task_id='load_Capa_Master_id',
         python_callable=load_Capa_Master,
         dag=dag
