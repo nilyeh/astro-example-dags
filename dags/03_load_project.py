@@ -32,11 +32,7 @@ dag = DAG(
     dag=dag,
 )
 ##
-dag = DAG(
-    'install_db_dtypes',
-    default_args=default_args,
-    schedule_interval='@once',
-    
+
 def get_connect_mongo():
 
     CONNECTION_STRING ="mongodb+srv://atlas:T6.HYX68T8Wr6nT@cluster0.enioytp.mongodb.net/?retryWrites=true&w=majority"
