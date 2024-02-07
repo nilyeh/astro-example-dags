@@ -438,7 +438,7 @@ with DAG(
         dag=dag
     )
     step_load_Capa_Master = PythonOperator(
-        task_id='install_db_dtypes',
+        #task_id='install_db_dtypes',
         task_id='load_Capa_Master_id',
         python_callable=load_Capa_Master,
         dag=dag
